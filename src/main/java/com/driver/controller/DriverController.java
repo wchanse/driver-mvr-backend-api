@@ -3,6 +3,7 @@ package com.driver.controller;
 import com.driver.model.Driver;
 import com.driver.model.Violation;
 import com.driver.model.dto.DriverDto;
+import com.driver.model.dto.PlainDriverDto;
 import com.driver.model.dto.ViolationDto;
 import com.driver.service.DriverService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,9 +74,8 @@ public class DriverController {
     }
 
     @GetMapping(value = "/highrisk")
-    public ResponseEntity<List<DriverDto>> getHighRisk(){
-        List<Driver> drivers = driverService.getHighRiskDrivers();
-        List<DriverDto> driversDto = drivers.stream().map(DriverDto::from).collect(Collectors.toList());
-        return new ResponseEntity<>(driversDto, HttpStatus.OK);
+    public ResponseEntity<List<PlainDriverDto>> getHighRisk(){
+        List<PlainDriverDto> drivers = driverService.getHighRiskDrivers();
+        return new ResponseEntity<>(drivers, HttpStatus.OK);
     }
 }
