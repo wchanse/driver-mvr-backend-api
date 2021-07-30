@@ -16,7 +16,10 @@ public class DriverDto {
     private String lastName;
     private String city;
     private String state;
+    private String zip;
     private String licenseNumber;
+    private String gender;
+    private Integer age;
     @ApiModelProperty(hidden = true)
     private List<ViolationDto> violationsDto = new ArrayList<>();
 
@@ -27,7 +30,10 @@ public class DriverDto {
         driverDto.setLastName(driver.getLastName());
         driverDto.setCity(driver.getCity());
         driverDto.setState(driver.getState());
+        driverDto.setZip(driver.getZip());
         driverDto.setLicenseNumber(driver.getLicenseNumber());
+        driverDto.setGender(driver.getGender());
+        driverDto.setAge(driver.getAge());
         driverDto.setViolationsDto(driver.getViolations().stream().map(ViolationDto::from).collect(Collectors.toList()));
         return driverDto;
     }
