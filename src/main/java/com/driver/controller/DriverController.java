@@ -52,7 +52,7 @@ public class DriverController {
 
     @PutMapping(value = "/{id}")
     public ResponseEntity<DriverDto> putDriver(@PathVariable final Long id,
-                                              @RequestBody final DriverDto driverDto){
+                                               @RequestBody final DriverDto driverDto){
         Driver driver = driverService.editDriver(id, Driver.from(driverDto));
         return new ResponseEntity<>(DriverDto.from(driver), HttpStatus.OK);
     }
