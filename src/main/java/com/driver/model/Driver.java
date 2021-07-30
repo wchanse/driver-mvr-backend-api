@@ -17,7 +17,10 @@ public class Driver {
     private String lastName;
     private String city;
     private String state;
+    private String zip;
     private String licenseNumber;
+    private String gender;
+    private Integer age;
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "driver_id")
     private List<Violation> violations = new ArrayList<>();
