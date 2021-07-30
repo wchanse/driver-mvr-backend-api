@@ -3,6 +3,7 @@ package com.driver.controller;
 import com.driver.model.Driver;
 import com.driver.model.Violation;
 import com.driver.model.dto.DriverDto;
+import com.driver.model.dto.PlainDriverDto;
 import com.driver.model.dto.ViolationDto;
 import com.driver.service.DriverService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,5 +71,11 @@ public class DriverController {
                                                             @PathVariable final Long violationId){
         Driver driver = driverService.removeViolationFromDriver(driverId, violationId);
         return new ResponseEntity<>(DriverDto.from(driver), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/highrisk")
+    public ResponseEntity<List<PlainDriverDto>> getHighRisk(){
+        List<PlainDriverDto> drivers = driverService.getHighRiskDrivers();
+        return new ResponseEntity<>(drivers, HttpStatus.OK);
     }
 }
