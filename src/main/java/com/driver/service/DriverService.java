@@ -15,5 +15,6 @@ public interface DriverService {
     Driver editDriver(Long id, Driver driver);
     Driver addViolationToDriver(Long driverId, Violation violation);
     Driver removeViolationFromDriver(Long driverId, Long violationId);
+    List<Driver> getHighRiskDrivers();
 
 }

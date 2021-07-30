@@ -71,4 +71,11 @@ public class DriverController {
         Driver driver = driverService.removeViolationFromDriver(driverId, violationId);
         return new ResponseEntity<>(DriverDto.from(driver), HttpStatus.OK);
     }
+
+    @GetMapping(value = "/highrisk")
+    public ResponseEntity<List<DriverDto>> getHighRisk(){
+        List<Driver> drivers = driverService.getHighRiskDrivers();
+        List<DriverDto> driversDto = drivers.stream().map(DriverDto::from).collect(Collectors.toList());
+        return new ResponseEntity<>(driversDto, HttpStatus.OK);
+    }
 }
