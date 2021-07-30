@@ -13,6 +13,8 @@ public class Violation {
     private Long id;
     private String description;
     private String violationType;
+    private String violationSeverity;
+    private Integer violationYear;
     @ManyToOne
     private Driver driver;
 

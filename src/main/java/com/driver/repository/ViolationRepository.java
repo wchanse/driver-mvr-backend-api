@@ -13,4 +13,9 @@ public interface ViolationRepository extends JpaRepository<Violation, Long> {
     @Query(value = "select count(*), (select lastName from drivers.Driver where id = driver_id) driver from drivers.Violation v group by (driver_id)",
             nativeQuery = true)
     List<Object[]> getDriverDetails();
+
+    List<Violation> findAllByViolationSeverity(String violationSeverity);
+    List<Violation> findAllByViolationType(String violationType);
+    List<Violation> findAllByViolationYear(Integer year);
+    List<Violation> findAllByViolationYearGreaterThan(Integer year);
 }

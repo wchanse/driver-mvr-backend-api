@@ -2,16 +2,15 @@ package com.driver.service;
 
 import com.driver.model.Driver;
 import com.driver.model.Violation;
-import com.driver.model.dto.ViolationDto;
+import com.driver.model.dto.PlainDriverDto;
 import com.driver.model.exception.DriverNotFoundException;
-import com.driver.model.exception.ViolationIsAlreadyAssignedException;
 import com.driver.repository.DriverRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -59,6 +58,7 @@ public class DriverServiceImpl implements DriverService {
         driverToEdit.setLastName(driver.getLastName());
         driverToEdit.setCity(driver.getCity());
         driverToEdit.setState(driver.getState());
+        driverToEdit.setZip(driver.getZip());
         return driverToEdit;
     }
 
@@ -78,5 +78,53 @@ public class DriverServiceImpl implements DriverService {
         Violation violation = violationService.getViolation(violationId);
         driver.removeItem(violation);
         return driver;
+    }
+
+    @Override
+    public List<PlainDriverDto> getHighRiskDrivers() {
+        List<PlainDriverDto> highRisk = new ArrayList<>();
+        List<Driver> driverList = driverRepository.findAll();
+        for(Driver driver: driverList) {
+            if (driver.getViolations().size() >= 2) {
+                // add to high risk
+                highRisk.add(PlainDriverDto.from(driver));
+            }
+        }
+        return highRisk;
+    }
+
+    @Override
+    public Driver findDriverByLicenseNumber(String licenseNumber) {
+        return driverRepository.findDriverByLicenseNumber(licenseNumber);
+    }
+
+    @Override
+    public List<Driver> findAllByZip(String zip) {
+        return driverRepository.findAllByZip(zip);
+    }
+
+    @Override
+    public List<Driver> findAllByCity(String city) {
+        return driverRepository.findAllByCity(city);
+    }
+
+    @Override
+    public List<Driver> findAllByState(String state) {
+        return driverRepository.findAllByState(state);
+    }
+
+    @Override
+    public List<Driver> findAllByLastName(String lastName) {
+        return driverRepository.findAllByLastName(lastName);
+    }
+
+    @Override
+    public List<Driver> findAllByGender(String gender) {
+        return driverRepository.findAllByGender(gender);
+    }
+
+    @Override
+    public List<Driver> findAllByAgeLessThan(Integer age) {
+        return driverRepository.findAllByAgeLessThan(age);
     }
 }
