@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,9 +33,35 @@ public class DriverController {
         return new ResponseEntity<>(DriverDto.from(driver), HttpStatus.OK);
     }
 
+//    @GetMapping
+//    public ResponseEntity<List<DriverDto>> getDrivers(){
+//        List<Driver> drivers = driverService.getDrivers();
+//        List<DriverDto> driversDto = drivers.stream().map(DriverDto::from).collect(Collectors.toList());
+//        return new ResponseEntity<>(driversDto, HttpStatus.OK);
+//    }
+
     @GetMapping
-    public ResponseEntity<List<DriverDto>> getDrivers(){
-        List<Driver> drivers = driverService.getDrivers();
+    public ResponseEntity<List<DriverDto>> getDrivers(@RequestParam(value = "lastName", required = false) String lastName,
+                                                      @RequestParam(value = "city", required = false) String city,
+                                                      @RequestParam(value = "state", required = false) String state,
+                                                      @RequestParam(value = "zip", required = false) String zipCode,
+                                                      @RequestParam(value = "gender", required = false) String gender){
+        List<Driver> drivers;
+
+        if (lastName != null) {
+            drivers = driverService.findAllByLastName(lastName);
+        } else if (city != null) {
+            drivers = driverService.findAllByCity(city);
+        } else if (state != null) {
+            drivers = driverService.findAllByState(state);
+        } else if (zipCode != null) {
+            drivers = driverService.findAllByZip(zipCode);
+        } else if (gender != null) {
+            drivers = driverService.findAllByGender(gender);
+        } else {
+            drivers = driverService.getDrivers();
+        }
+
         List<DriverDto> driversDto = drivers.stream().map(DriverDto::from).collect(Collectors.toList());
         return new ResponseEntity<>(driversDto, HttpStatus.OK);
     }

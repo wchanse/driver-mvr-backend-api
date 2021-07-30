@@ -92,4 +92,39 @@ public class DriverServiceImpl implements DriverService {
         }
         return highRisk;
     }
+
+    @Override
+    public Driver findDriverByLicenseNumber(String licenseNumber) {
+        return driverRepository.findDriverByLicenseNumber(licenseNumber);
+    }
+
+    @Override
+    public List<Driver> findAllByZip(String zip) {
+        return driverRepository.findAllByZip(zip);
+    }
+
+    @Override
+    public List<Driver> findAllByCity(String city) {
+        return driverRepository.findAllByCity(city);
+    }
+
+    @Override
+    public List<Driver> findAllByState(String state) {
+        return driverRepository.findAllByState(state);
+    }
+
+    @Override
+    public List<Driver> findAllByLastName(String lastName) {
+        return driverRepository.findAllByLastName(lastName);
+    }
+
+    @Override
+    public List<Driver> findAllByGender(String gender) {
+        return driverRepository.findAllByGender(gender);
+    }
+
+    @Override
+    public List<Driver> findAllByAgeLessThan(Integer age) {
+        return driverRepository.findAllByAgeLessThan(age);
+    }
 }
