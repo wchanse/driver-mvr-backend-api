@@ -17,4 +17,12 @@ public interface DriverService {
     Driver removeViolationFromDriver(Long driverId, Long violationId);
     List<PlainDriverDto> getHighRiskDrivers();
 
+    Driver findDriverByLicenseNumber(String licenseNumber);
+    List<Driver> findAllByZip(String zip);
+    List<Driver> findAllByCity(String city);
+    List<Driver> findAllByState(String state);
+    List<Driver> findAllByLastName(String lastName);
+    List<Driver> findAllByGender(String gender);
+    List<Driver> findAllByAgeLessThan(Integer age);
+
 }
