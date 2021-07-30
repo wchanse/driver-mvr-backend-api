@@ -1,54 +1,48 @@
 package com.driver.controller;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import com.driver.TestUtil;
+import com.driver.controller.DriverController;
 import com.driver.model.Driver;
-import com.driver.model.dto.DriverDto;
-import org.json.JSONException;
-import org.junit.jupiter.api.Assertions;
+import com.driver.service.DriverService;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
-import org.skyscreamer.jsonassert.JSONAssert;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.web.servlet.MockMvc;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class DriverControllerTest {
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
-    private TestRestTemplate restTemplate;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.when;
+
+@WebMvcTest(DriverController.class)
+class DriverControllerTest {
+
+    @MockBean
+    DriverService driverService;
 
     @Autowired
-    public DriverControllerTest(TestRestTemplate restTemplate){
-        this.restTemplate = restTemplate;
-    }
+    MockMvc mockMvc;
 
     @Test
-    public void driverCreatedTest(){
+    public void testFindAll() throws Exception {
+        Driver driver = TestUtil.createValidDriver();
+        List<Driver> drivers = new ArrayList<>();
+        drivers.add(driver);
 
-        Driver driver = new Driver();
-        driver.setId(2L);
-        driver.setLastName("Doe");
-        driver.setFirstName("John");
-        driver.setCity("San Francisco");
-        driver.setState("CA");
-        driver.setLicenseNumber("4GJS839");
+        when(driverService.getDrivers()).thenReturn(drivers);
 
-        Driver response = this.restTemplate.postForObject("/api/v1/drivers/", driver, Driver.class );
-//        Driver response = this.restTemplate.getForObject("/api/drivers/", Driver.class);
-        System.out.println(response);
-
-        Assertions.assertEquals(driver, response);
-
-
+        mockMvc.perform(get("/api/v1/drivers"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", Matchers.hasSize(1)))
+                .andExpect(jsonPath("$[0].firstName", Matchers.is("test-firstname")));
     }
 
-    @Test
-    public void driverGetAll() throws JSONException {
-
-        String response = this.restTemplate.getForObject("/api/v1/drivers/", String.class );
-//        Driver response = this.restTemplate.getForObject("/api/drivers/", Driver.class);
-        System.out.println(response);
-
-        JSONAssert.assertEquals("[{id: 1}, {id: 2}]", response, true);
-
-
-    }
 }
