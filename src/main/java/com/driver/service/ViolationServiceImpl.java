@@ -14,27 +14,27 @@ import java.util.stream.StreamSupport;
 @Service
 public class ViolationServiceImpl implements ViolationService {
 
-    private final ViolationRepository itemRepository;
+    private final ViolationRepository violationRepository;
 
     @Autowired
-    public ViolationServiceImpl(ViolationRepository itemRepository) {
-        this.itemRepository = itemRepository;
+    public ViolationServiceImpl(ViolationRepository violationRepository) {
+        this.violationRepository = violationRepository;
     }
 
     public List<Violation> getViolations(){
         return StreamSupport
-                .stream(itemRepository.findAll().spliterator(), false)
+                .stream(violationRepository.findAll().spliterator(), false)
                 .collect(Collectors.toList());
     }
 
     public Violation getViolation(Long id){
-        return itemRepository.findById(id).orElseThrow(() ->
+        return violationRepository.findById(id).orElseThrow(() ->
                 new ViolationNotFoundException(id));
     }
 
     public Violation deleteViolation(Long id){
         Violation violation = getViolation(id);
-        itemRepository.delete(violation);
+        violationRepository.delete(violation);
         return violation;
     }
 
@@ -43,5 +43,10 @@ public class ViolationServiceImpl implements ViolationService {
         Violation violationToEdit = getViolation(id);
         violationToEdit.setDescription(violation.getDescription());
         return violationToEdit;
+    }
+
+    @Override
+    public List<Object[]> getDriverDetails() {
+        return violationRepository.getDriverDetails();
     }
 }

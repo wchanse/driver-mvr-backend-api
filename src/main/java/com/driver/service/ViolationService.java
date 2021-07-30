@@ -10,5 +10,6 @@ public interface ViolationService {
     Violation getViolation(Long id);
     Violation deleteViolation(Long id);
     Violation editViolation(Long id, Violation violation);
+    List<Object[]> getDriverDetails();
 
 }

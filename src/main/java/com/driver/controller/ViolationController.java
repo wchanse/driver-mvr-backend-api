@@ -1,15 +1,19 @@
 package com.driver.controller;
 
 import com.driver.model.Violation;
+import com.driver.model.dto.DriverDetails;
 import com.driver.model.dto.ViolationDto;
+import com.driver.repository.ViolationRepository;
 import com.driver.service.ViolationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @CrossOrigin("*")
 @RestController
@@ -47,5 +51,18 @@ public class ViolationController {
                                                  @RequestBody final ViolationDto violationDto){
         Violation editedViolation = violationService.editViolation(id, Violation.from(violationDto));
         return new ResponseEntity<>(ViolationDto.from(editedViolation), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/stats")
+    public List<DriverDetails> getDriverDetails() {
+        List<DriverDetails> list = new ArrayList<>();
+        List<Object[]> driverDetails = violationService.getDriverDetails();
+        driverDetails.forEach(driver -> {
+            DriverDetails dto = new DriverDetails();
+            dto.setCount(driver[0] + "");
+            dto.setDrivers(Stream.of(driver[1].toString().split(",")).collect(Collectors.toList()));
+            list.add(dto);
+        });
+        return list;
     }
 }
