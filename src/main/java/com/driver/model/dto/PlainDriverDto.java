@@ -8,13 +8,19 @@ import lombok.Data;
 public class PlainDriverDto {
     @ApiModelProperty(hidden = true)
     private Long id;
-    private String name;
+    private String firstName;
+    private String lastName;
+    private String city;
+    private String state;
     private String licenseNumber;
 
     public static PlainDriverDto from(Driver driver){
         PlainDriverDto plainDriverDto = new PlainDriverDto();
         plainDriverDto.setId(driver.getId());
-        plainDriverDto.setName(driver.getName());
+        plainDriverDto.setFirstName(driver.getFirstName());
+        plainDriverDto.setLastName(driver.getLastName());
+        plainDriverDto.setCity(driver.getCity());
+        plainDriverDto.setState(driver.getState());
         plainDriverDto.setLicenseNumber(driver.getLicenseNumber());
         return plainDriverDto;
     }

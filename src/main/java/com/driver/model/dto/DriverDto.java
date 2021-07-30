@@ -12,7 +12,10 @@ import java.util.stream.Collectors;
 public class DriverDto {
     @ApiModelProperty(hidden = true)
     private Long id;
-    private String name;
+    private String firstName;
+    private String lastName;
+    private String city;
+    private String state;
     private String licenseNumber;
     @ApiModelProperty(hidden = true)
     private List<ViolationDto> violationsDto = new ArrayList<>();
@@ -20,7 +23,10 @@ public class DriverDto {
     public static DriverDto from(Driver driver){
         DriverDto driverDto = new DriverDto();
         driverDto.setId(driver.getId());
-        driverDto.setName(driver.getName());
+        driverDto.setFirstName(driver.getFirstName());
+        driverDto.setLastName(driver.getLastName());
+        driverDto.setCity(driver.getCity());
+        driverDto.setState(driver.getState());
         driverDto.setLicenseNumber(driver.getLicenseNumber());
         driverDto.setViolationsDto(driver.getViolations().stream().map(ViolationDto::from).collect(Collectors.toList()));
         return driverDto;

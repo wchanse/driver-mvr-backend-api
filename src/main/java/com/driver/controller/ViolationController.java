@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@CrossOrigin
+@CrossOrigin("*")
 @RestController
-@RequestMapping("/violations")
+@RequestMapping("/api/v1/violations")
 public class ViolationController {
 
     private final ViolationService violationService;
@@ -23,12 +23,6 @@ public class ViolationController {
         this.violationService = violationService;
     }
 
-    @PostMapping
-    public ResponseEntity<ViolationDto> addViolation(@RequestBody final ViolationDto violationDto){
-        Violation violation = violationService.addViolation(Violation.from(violationDto));
-        return new ResponseEntity<>(ViolationDto.from(violation), HttpStatus.OK);
-    }
-
     @GetMapping
     public ResponseEntity<List<ViolationDto>> getViolations(){
         List<Violation> violations = violationService.getViolations();
@@ -36,19 +30,19 @@ public class ViolationController {
         return new ResponseEntity<>(violationDto, HttpStatus.OK);
     }
 
-    @GetMapping(value = "{id}")
+    @GetMapping(value = "/{id}")
     public ResponseEntity<ViolationDto> getViolation(@PathVariable final Long id){
         Violation violation = violationService.getViolation(id);
         return new ResponseEntity<>(ViolationDto.from(violation), HttpStatus.OK);
     }
 
-    @DeleteMapping(value = "{id}")
+    @DeleteMapping(value = "/{id}")
     public ResponseEntity<ViolationDto> deleteViolation(@PathVariable final Long id){
         Violation violation = violationService.deleteViolation(id);
         return new ResponseEntity<>(ViolationDto.from(violation), HttpStatus.OK);
     }
 
-    @PutMapping(value = "{id}")
+    @PutMapping(value = "/{id}")
     public ResponseEntity<ViolationDto> editViolation(@PathVariable final Long id,
                                                  @RequestBody final ViolationDto violationDto){
         Violation editedViolation = violationService.editViolation(id, Violation.from(violationDto));

@@ -11,13 +11,14 @@ import java.util.List;
 @Entity
 public class Driver {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name;
+    private String firstName;
+    private String lastName;
+    private String city;
+    private String state;
     private String licenseNumber;
-    @OneToMany(
-            cascade = CascadeType.ALL
-    )
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "driver_id")
     private List<Violation> violations = new ArrayList<>();
 
@@ -31,7 +32,10 @@ public class Driver {
 
     public static Driver from(DriverDto driverDto){
         Driver driver = new Driver();
-        driver.setName(driverDto.getName());
+        driver.setFirstName(driverDto.getFirstName());
+        driver.setLastName(driverDto.getLastName());
+        driver.setCity(driverDto.getCity());
+        driver.setState(driverDto.getState());
         driver.setLicenseNumber(driverDto.getLicenseNumber());
         return driver;
     }
