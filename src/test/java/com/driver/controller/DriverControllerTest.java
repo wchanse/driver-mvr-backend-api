@@ -10,15 +10,18 @@ import com.driver.service.DriverService;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
+@WebMvcTest(DriverController.class)
 class DriverControllerTest {
 
     @MockBean
@@ -30,7 +33,8 @@ class DriverControllerTest {
     @Test
     public void testFindAll() throws Exception {
         Driver driver = TestUtil.createValidDriver();
-        List<Driver> drivers = Arrays.asList(driver);
+        List<Driver> drivers = new ArrayList<>();
+        drivers.add(driver);
 
         when(driverService.getDrivers()).thenReturn(drivers);
 
