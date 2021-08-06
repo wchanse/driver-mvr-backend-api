@@ -15,7 +15,7 @@ public class Violation {
     private String violationType;
     private String violationSeverity;
     private Integer violationYear;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     private Driver driver;
 
     public static Violation from(ViolationDto violationDto){

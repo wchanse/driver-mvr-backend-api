@@ -59,6 +59,9 @@ public class DriverServiceImpl implements DriverService {
         driverToEdit.setCity(driver.getCity());
         driverToEdit.setState(driver.getState());
         driverToEdit.setZip(driver.getZip());
+        driverToEdit.setLicenseNumber(driver.getLicenseNumber());
+        driverToEdit.setAge(driver.getAge());
+        driverToEdit.setGender(driver.getGender());
         return driverToEdit;
     }
 
